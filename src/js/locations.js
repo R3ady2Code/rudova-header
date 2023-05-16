@@ -55,9 +55,17 @@ document.addEventListener('click', e => {
 async function fetchLocations() {
 	try {
 		const allCities = []
-		await fetch('https://studika.ru/api/areas', { method: 'POST' })
+		await fetch('https://wft-geo-db.p.rapidapi.com/v1/geo/cities', {
+			method: 'GET',
+			headers: {
+				'X-RapidAPI-Key': 'de68ce76d0msh9599ec4d8398169p1429e7jsn14e891a94f77',
+				'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+			},
+		})
 			.then(res => res.json())
-			.then(regions => regions.map(r => allCities.push(r.cities)))
+			.then(({ data }) => {
+				allCities.push(data)
+			})
 		isLoaded = true
 		return [].concat(...allCities)
 	} catch (error) {
